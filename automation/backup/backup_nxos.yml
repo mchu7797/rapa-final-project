@@ -1,0 +1,77 @@
+---
+# NX-OS running-config 백업 후 copy running-config startup-config 실행
+#
+# 사용법:
+#   ansible-playbook backup_nxos.yml
+#   ansible-playbook backup_nxos.yml -l NXOS-DEVICE-01
+
+- name: Backup NX-OS running-config and save startup-config
+  hosts: nxos
+  gather_facts: false
+
+  vars:
+    backup_base: "{{ playbook_dir }}/backups"
+    log_base: "{{ playbook_dir }}/logs"
+    timestamp: "{{ lookup('pipe', 'date +%Y%m%d-%H%M%S') }}"
+    config_path: "{{ backup_base }}/{{ inventory_hostname }}-nxos-running-{{ timestamp }}.txt"
+    log_path: "{{ log_base }}/{{ inventory_hostname }}-nxos-save-{{ timestamp }}.log"
+
+  tasks:
+    - name: Create local output directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - "{{ backup_base }}"
+        - "{{ log_base }}"
+      delegate_to: localhost
+
+    - name: Collect running-config
+      cisco.nxos.nxos_command:
+        commands:
+          - show running-config
+      register: running_config
+      changed_when: false
+
+    - name: Save running-config as text
+      ansible.builtin.copy:
+        content: "{{ running_config.stdout[0] }}\n"
+        dest: "{{ config_path }}"
+        mode: "0644"
+      delegate_to: localhost
+
+    - name: Copy running-config to startup-config
+      cisco.nxos.nxos_command:
+        commands:
+          - command: copy running-config startup-config
+            prompt:
+              - "Do you want to continue.*"
+              - "Destination filename.*"
+            answer:
+              - "y"
+              - "\r"
+      register: save_result
+
+    - name: Save execution log
+      ansible.builtin.copy:
+        dest: "{{ log_path }}"
+        mode: "0644"
+        content: |
+          device: {{ inventory_hostname }}
+          os: NX-OS
+          timestamp: {{ timestamp }}
+          config_backup: {{ config_path }}
+          command: copy running-config startup-config
+          result:
+          {% for line in save_result.stdout | default([]) %}
+          {{ line }}
+          {% endfor %}
+      delegate_to: localhost
+
+    - name: Show backup and save log
+      ansible.builtin.debug:
+        msg:
+          - "Config backup: {{ config_path }}"
+          - "Save log     : {{ log_path }}"
+          - "{{ save_result.stdout_lines | default(save_result.stdout | default([])) }}"

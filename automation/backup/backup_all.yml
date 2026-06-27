@@ -1,0 +1,8 @@
+---
+# NX-OS/IOS 장비 백업 마스터 플레이북
+#
+# 사용법:
+#   ansible-playbook backup_all.yml
+
+- import_playbook: backup_nxos.yml
+- import_playbook: backup_ios.yml
