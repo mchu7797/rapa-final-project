@@ -6,6 +6,8 @@
 rapa-final-project/
 ├── README.md                 # 저장소 안내
 ├── docs/                     # RFP, 설계/검토 문서
+├── images/                   # 토폴로지 이미지
+├── pnet-project/             # PNETLab 프로젝트 파일
 ├── configs/                  # 장비별 최종 설정
 │   ├── FB-1/
 │   ├── FB-2/
@@ -20,6 +22,8 @@ rapa-final-project/
 ## 관리 기준
 
 - README는 저장소 진입점으로 유지하고, 긴 문서는 `docs/`에 둔다.
+- 토폴로지 이미지는 `images/` 아래에서 관리한다.
+- PNETLab 프로젝트 파일은 `pnet-project/` 아래에서 관리한다.
 - 장비 최종 설정 파일은 `configs/` 아래에서 관리한다.
 - 백업 자동화 코드는 `automation/backup/` 아래에서 관리한다.
 - 원본 수집본과 로컬 추출본은 git으로 추적하지 않는다.

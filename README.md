@@ -1,6 +1,6 @@
 # RAPA Final Project
 
-Navia 클라우드 멀티테넌트 데이터센터 패브릭 확장 프로젝트 저장소입니다. 문서, 장비 최종 설정, 백업 자동화 코드를 분리해서 관리합니다.
+Navia 클라우드 멀티테넌트 데이터센터 패브릭 확장 프로젝트 저장소입니다. 문서, 토폴로지 이미지, PNETLab 프로젝트 파일, 장비 최종 설정, 백업 자동화 코드를 분리해서 관리합니다.
 
 ## Repository Layout
 
@@ -9,6 +9,10 @@ rapa-final-project/
 ├── README.md
 ├── docs/
 │   └── RFP.md
+├── images/
+│   └── topology.png
+├── pnet-project/
+│   └── FINAL-LAB.zip
 ├── configs/
 │   ├── FB-1/
 │   ├── FB-2/
@@ -23,6 +27,8 @@ rapa-final-project/
 | 분류 | 경로 | 내용 |
 |---|---|---|
 | 문서 | `docs/` | RFP, 설계/검토 문서 |
+| 이미지 | `images/` | 프로젝트 토폴로지 이미지 |
+| PNETLab | `pnet-project/` | PNETLab 프로젝트 압축 파일 |
 | 장비 설정 | `configs/` | 장비별 최종 `.config` 파일 |
 | 백업 자동화 | `automation/backup/` | Ansible 기반 구성 백업 템플릿 |
 | 프로젝트 안내 | `README.md` | 저장소 구조와 주요 산출물 안내 |
@@ -30,8 +36,16 @@ rapa-final-project/
 ## Key Files
 
 - [RFP 문서](docs/RFP.md)
+- [토폴로지 이미지](images/topology.png)
+- [PNETLab 프로젝트 파일](pnet-project/FINAL-LAB.zip)
 - [장비 설정](configs/)
 - [백업 자동화 README](automation/backup/README.md)
+
+## Topology
+
+![Project topology](images/topology.png)
+
+PNETLab에서 직접 확인할 수 있는 프로젝트 파일은 [`pnet-project/FINAL-LAB.zip`](pnet-project/FINAL-LAB.zip)에 있습니다.
 
 ## Device Configs
 
